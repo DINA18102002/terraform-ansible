@@ -1,0 +1,16 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform-sa-key.json
+
+# Ansible
+inventory
+
+# SSH
+*.pem
+*.key
+
+# OS
+.DS_Store
