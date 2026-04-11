@@ -29,7 +29,7 @@ resource "google_compute_instance" "ansible_vm" {
     }
   }
   metadata = {
-    ssh-keys = "${var.ssh_user}:${file(var.public_key_path)}"
+    ssh-keys = "${var.ssh_user}:${file("id_rsa.pub")}"
   }
   tags = ["ansible-vm"]
 }
