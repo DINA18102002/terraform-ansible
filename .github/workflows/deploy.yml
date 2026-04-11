@@ -1,5 +1,9 @@
 name: Terraform + Ansible CI/CD
 
+concurrency:
+  group: terraform-infra
+  cancel-in-progress: false
+
 on:
   push:
     branches:
