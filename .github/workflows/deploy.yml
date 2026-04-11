@@ -5,12 +5,18 @@ on:
     branches:
       - main
 
+env:
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-key.json
+
 jobs:
   terraform-plan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Write GCP credentials
+        run: echo "${{ secrets.GCP_SA_KEY }}" > gcp-key.json
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
@@ -39,6 +45,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Write GCP credentials
+        run: echo "${{ secrets.GCP_SA_KEY }}" > gcp-key.json
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
