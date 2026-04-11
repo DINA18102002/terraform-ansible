@@ -81,3 +81,60 @@ jobs:
       - name: Terraform Apply
         run: terraform apply tfplan
         working-directory: terraform
+
+  ansible-deploy:
+    needs: terraform-apply
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Write GCP key
+        run: |
+          cat <<EOF > gcp-key.json
+          ${{ secrets.GCP_SA_KEY }}
+          EOF
+
+      - name: Write SSH key
+        run: |
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > terraform/id_rsa.pub
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.0.0
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Get Instance IP
+        id: tfoutput
+        run: |
+          IP=$(terraform output -raw instance_ip)
+          echo "INSTANCE_IP=$IP" >> $GITHUB_ENV
+        working-directory: terraform
+
+      - name: Write SSh private key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+      - name: Disable host key checking
+        run: |
+          echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+
+
+      - name: Create Ansible Inventory
+        run: |
+          echo "[web]" > ansible/inventory
+          echo "$INSTANCE_IP ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa" >> ansible/inventory
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook -i ansible/inventory ansible/playbook.yml
