@@ -39,7 +39,7 @@ resource "google_compute_firewall" "allow_ssh" {
   network = "default"
     allow {
         protocol = "tcp"
-        ports = ["22", "80"]
+        ports = ["22", "80", "3000", "5000"]
     }
     target_tags = [ "ansible-vm"]
     source_ranges = ["0.0.0.0/0"]

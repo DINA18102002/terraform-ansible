@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+
+  backend:
+    image: theena18/notes-backend
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/notesdb
+
+  frontend:
+    image: theena18/notes-frontend
+  
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend

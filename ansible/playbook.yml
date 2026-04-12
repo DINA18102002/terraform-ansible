@@ -19,10 +19,17 @@
         state: started
         enabled: yes
 
-    - name: Run nginx container
-      docker_container:
-        name: nginx
-        image: nginx
-        state: started
-        ports:
-          - "80:80"
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Copy Docker Compose file
+      copy:
+        src: docker-compose.yml
+        dest: /home/ubuntu/docker-compose.yml
+
+    - name: Run application using docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: /home/ubuntu
