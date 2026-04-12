@@ -24,9 +24,19 @@
         name: docker-compose
         state: present
 
+    - name: Create nginx folder
+      file:
+        path: /home/ubuntu/nginx
+        state: directory
+
+    - name: Copy nginx config
+      copy:
+        src: ../fullstackapp/nginx/nginx.conf
+        dest: /home/ubuntu/nginx/nginx.conf
+
     - name: Copy Docker Compose file
       copy:
-        src: docker-compose.yml
+        src: ../fullstackapp/docker-compose.yml
         dest: /home/ubuntu/docker-compose.yml
 
     - name: Run application using docker-compose
