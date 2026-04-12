@@ -39,7 +39,12 @@
         src: ../fullstackapp/docker-compose.yml
         dest: /home/ubuntu/docker-compose.yml
 
+    - name: Stop old containers
+      command: docker-compose down
+      args:
+        chdir: /home/ubuntu
+
     - name: Run application using docker-compose
-      command: docker-compose up -d --force-recreate
+      command: docker-compose up -d
       args:
         chdir: /home/ubuntu
