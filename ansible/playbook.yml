@@ -40,6 +40,6 @@
         dest: /home/ubuntu/docker-compose.yml
 
     - name: Run application using docker-compose
-      command: docker-compose up -d
+      command: docker-compose up -d --force-recreate
       args:
         chdir: /home/ubuntu

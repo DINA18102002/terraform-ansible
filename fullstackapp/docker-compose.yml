@@ -3,6 +3,8 @@ version: '3.8'
 services:
   mongodb:
     image: mongo
+    volumes:
+      - mongo-data:/data/db
 
   backend:
     image: theena18/notes-backend
@@ -21,3 +23,6 @@ services:
     depends_on:
       - frontend
       - backend
+
+volumes:
+  mongo-data:
