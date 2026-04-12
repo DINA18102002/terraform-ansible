@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Backend Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-backend ./backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-backend ./fullstackapp/backend
 
       - name: Push Backend Image
         run: |
@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Frontend Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-frontend ./frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-frontend ./fullstackapp/frontend
 
       - name: Push Frontend Image
         run: |
