@@ -34,18 +34,28 @@
         src: ../fullstackapp/nginx/nginx.conf
         dest: /home/ubuntu/nginx/nginx.conf
 
+    # create monitoring folder
     - name: Create monitoring folder
       file: 
         path: /home/ubuntu/monitoring
         state: directory
 
+    # Remove wrong file (if directory or corrupted)
+    - name: Remove old prometheus file if exists
+      file: 
+        path: /home/ubuntu/monitoring/prometheus.yml 
+        state: absent
+
+    # copy correct file
     - name: Copy monitoring config file
       copy: 
         src: "{{ playbook_dir }}/../fullstackapp/monitoring/prometheus.yml"
         dest: /home/ubuntu/monitoring/prometheus.yml
+        mode: '0644'
 
-    - name: verify monitoring file
-      command: ls -l /home/ubuntu/monitoring/prometheus.yml
+    # verify file
+    - name: verify prometheus file
+      command: ls -l /home/ubuntu/monitoring
 
 
     - name: Copy Docker Compose file
