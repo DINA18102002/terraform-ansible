@@ -52,7 +52,12 @@
     - name: Dedbug monitoring files
       command: ls -l {{playbook_dir }}/../fullstackapp/monitoring/
     
-    - name: Copy monitoring folder
+    - name: Create monitoring folder
+      file:
+        path: /home/ubuntu/monitoring
+        state: directory
+
+    - name: Copy monitoring config file
       copy:
-        src: "{{ playbook_dir }}/../fullstackapp/monitoring/"
-        dest: /home/ubuntu/monitoring/
+        src: "{{ playbook_dir }}/../fullstackapp/monitoring/prometheus.yml"
+        dest: /home/ubuntu/monitoring/prometheus.yml
