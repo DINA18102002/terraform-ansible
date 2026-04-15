@@ -53,7 +53,7 @@
         dest: /home/ubuntu/monitoring/prometheus.yml
         mode: '0644'
 
-    # verify file
+    # verify prometheus file
     - name: verify prometheus file
       command: ls -l /home/ubuntu/monitoring
 
