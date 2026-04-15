@@ -51,5 +51,5 @@
 
     - name: Copy monitoring folder
       copy:
-        src: ../fullstackapp/monitoring
-        dest: /home/ubuntu/monitoring
+        src: fullstackapp/monitoring/
+        dest: /home/ubuntu/monitoring/
