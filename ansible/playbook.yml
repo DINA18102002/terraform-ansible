@@ -34,6 +34,20 @@
         src: ../fullstackapp/nginx/nginx.conf
         dest: /home/ubuntu/nginx/nginx.conf
 
+    - name: Create monitoring folder
+      file: 
+        path: /home/ubuntu/monitoring
+        state: directory
+
+    - name: Copy monitoring config file
+      copy: 
+        src: "{{ playbook_dir }}/../fullstackapp/monitoring/prometheus.yml"
+        dest: /home/ubuntu/monitoring/prometheus.yml
+
+    - name: verify monitoring file
+      command: ls -l /home/ubuntu/monitoring/prometheus.yml
+
+
     - name: Copy Docker Compose file
       copy:
         src: ../fullstackapp/docker-compose.yml
@@ -49,15 +63,4 @@
       args:
         chdir: /home/ubuntu
     
-    - name: Dedbug monitoring files
-      command: ls -l {{playbook_dir }}/../fullstackapp/monitoring/
-    
-    - name: Create monitoring folder
-      file:
-        path: /home/ubuntu/monitoring
-        state: directory
-
-    - name: Copy monitoring config file
-      copy:
-        src: "{{ playbook_dir }}/../fullstackapp/monitoring/prometheus.yml"
-        dest: /home/ubuntu/monitoring/prometheus.yml
+  
