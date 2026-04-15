@@ -48,3 +48,8 @@
       command: docker-compose up -d
       args:
         chdir: /home/ubuntu
+
+    - name: Copy monitoring folder
+      copy:
+        src: ../fullstackapp/monitoring
+        dest: /home/ubuntu/monitoring
