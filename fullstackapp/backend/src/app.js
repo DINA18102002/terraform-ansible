@@ -2,12 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// prometheus client
-const client = require('prom-client');
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics();
 
-const register = client.register;
+const promBundle = require('express-prom-bundle');
 
 const noteRoutes = require('./routes/noteRoutes');
 
@@ -17,11 +13,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Metrics endpoint
-app.get('/metrics', async (req, res) => {
-    res.set('Content-Type', register.contentType);
-    res.end(await register.metrics());
+// Metrics middleware (handles /metrics automatically)
+const metricsMiddleware = promBundle({
+    includeMethod: true,
+    includePath: true,
+    includeStatusCode: true,
+    metricsPath: '/metrics',
+
+    promClient: {
+        collectDefaultMetrics: true,
+    },
+
+    normalizePath: [
+        ['/notes/:id', '/notes/#id'],
+    ],
 });
+
+app.use(metricsMiddleware);
+
+
 
 // Routes
 app.use('/notes', noteRoutes);
