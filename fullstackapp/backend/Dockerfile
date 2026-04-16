@@ -1,20 +1,15 @@
-# Use Node base image
-FROM node:18
+# Use lightweight image
+FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install only production deps
+RUN npm install --only=production
 
-# Copy source code
 COPY . .
 
-# Expose port
 EXPOSE 5000
 
-# Start app
 CMD ["node", "src/app.js"]
