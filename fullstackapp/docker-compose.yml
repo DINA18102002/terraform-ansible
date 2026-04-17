@@ -3,21 +3,30 @@ version: '3.8'
 services:
   mongodb:
     image: mongo
+    networks:
+      - app-network
     volumes:
       - mongo-data:/data/db
 
   backend:
     image: theena18/notes-backend
+    networks:
+      - app-network
+
     environment:
       - MONGO_URL=mongodb://mongodb:27017/notesdb
 
   frontend:
     image: theena18/notes-frontend
-  
+    networks:
+      - app-network
+
   nginx:
     image: nginx
     ports:
       - "80:80"
+    networks:
+      - app-network
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
@@ -27,6 +36,8 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    networks:
+      - app-network
     volumes:
       - /home/ubuntu/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -37,6 +48,8 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana
+    networks:
+      - app-network 
     ports:
       - "3000:3000"
     volumes:
@@ -44,6 +57,8 @@ services:
     depends_on:
       - prometheus
 
+networks:
+  app-network:
     
 volumes:
   mongo-data:
