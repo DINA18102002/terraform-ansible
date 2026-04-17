@@ -21,7 +21,7 @@ const metricsMiddleware = promBundle({
     metricsPath: '/metrics',
 
     promClient: {
-        collectDefaultMetrics: true,
+        collectDefaultMetrics: {},
     },
 
     normalizePath: [
