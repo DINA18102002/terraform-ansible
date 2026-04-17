@@ -8,24 +8,27 @@ terraform {
 provider "google" {
   project = var.project_id
   region  = var.region
-  zone = var.zone
+  zone    = var.zone
 }
 
 resource "google_compute_instance" "ansible_vm" {
-  name = "ansible-vm"
-  machine_type = "e2-medium"
-  zone = var.zone
+  name         = "ansible-vm"
+  machine_type = "e2-standard-2"
+  zone         = var.zone
 
   boot_disk {
+    auto_delete = true
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2204-lts"
+      size  = 30
+      type  = "pd-standard"
     }
   }
   network_interface {
     network = "default"
 
     access_config {
-      
+
     }
   }
   metadata = {
@@ -35,12 +38,12 @@ resource "google_compute_instance" "ansible_vm" {
 }
 
 resource "google_compute_firewall" "allow_ssh" {
-  name = "allow-ssh-ansible"
+  name    = "allow-ssh-ansible"
   network = "default"
-    allow {
-        protocol = "tcp"
-        ports = ["22", "80", "3000", "5000", "9090"]
-    }
-    target_tags = [ "ansible-vm"]
-    source_ranges = ["0.0.0.0/0"]
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "80", "3000", "5000", "9090"]
+  }
+  target_tags   = ["ansible-vm"]
+  source_ranges = ["0.0.0.0/0"]
 }
