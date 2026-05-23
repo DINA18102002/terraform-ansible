@@ -39,7 +39,7 @@ function App() {
 
   return (
     <div className="container">
-      <h2>📝 Notes App</h2>
+      <h2>📖Notes App</h2>
 
       <div className="input-group">
         <input
