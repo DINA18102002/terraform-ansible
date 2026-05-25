@@ -6,7 +6,7 @@ function App() {
   const [text, setText] = useState("");
 
   const fetchNotes = async () => {
-    const res = await fetch("/api/notes");
+    const res = await fetch("/notes");
     const data = await res.json();
     setNotes(data);
   };
@@ -14,7 +14,7 @@ function App() {
   const addNote = async () => {
     if (!text) return;
 
-    await fetch("/api/notes", {
+    await fetch("/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +27,7 @@ function App() {
   };
 
   const deleteNote = async (id) => {
-    await fetch(`/api/notes/${id}`, {
+    await fetch(`/notes/${id}`, {
       method: "DELETE",
     });
     fetchNotes();
