@@ -18,6 +18,9 @@ spec:
         app: frontend
     
     spec:
+      nodeSelector:
+        role: application
+        
       containers:
       - name: frontend
         image: theena18/notes-frontend:v4

@@ -1,0 +1,108 @@
+name: GKE CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - kubernetes-migration
+  
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      # ----------------------------------
+      # Checkout the code
+      # ----------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # ----------------------------------
+      # Docker Login
+      # ----------------------------------
+      - name: DockerHub Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # ----------------------------------
+      # Build Backend Image
+      # ----------------------------------
+      - name: Build Backend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-backend:${{ github.sha }} ./fullstackapp/backend
+
+      # ----------------------------------
+      # Push Backend Image
+      # ----------------------------------
+      - name: Push Backend Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/notes-backend:${{ github.sha }}
+
+      # ----------------------------------
+      # Build Frontend Image
+      # ----------------------------------
+      - name: Build Frontend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/notes-frontend:${{ github.sha }} ./fullstackapp/frontend
+
+      # ----------------------------------
+      # Push Frontend Image
+      # ----------------------------------
+      - name: Push Frontend Image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/notes-frontend:${{ github.sha }}
+
+      # ----------------------------------
+      # Authenticate to GCp
+      # ----------------------------------
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      # ----------------------------------
+      # Setup GCloud
+      # ----------------------------------
+      - name: Setup GCloud
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          service_account_key: '${{ secrets.GCP_SA_KEY }}'
+      
+      # ----------------------------------
+      # Get GKE Credentials
+      # ----------------------------------
+      - name: Get GKE Credentials
+        run: |
+          gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --zone ${{ secrets.GKE_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+
+      # ----------------------------------
+      # Update Backend Deployment
+      # ----------------------------------
+      - name: Deploy Backend
+        run: |
+          kubectl set image deployment/backend backend=${{ secrets.DOCKER_USERNAME }}/notes-backend:${{ github.sha }} -n devops-project
+
+      # ----------------------------------
+      # Update Frontend Deployment
+      # ----------------------------------
+      - name: Deploy Frontend
+        run: |
+          kubectl set image deployment/frontend frontend=${{ secrets.DOCKER_USERNAME }}/notes-frontend:${{ github.sha }} -n devops-project
+
+      # ----------------------------------
+      # Verify Rollout
+      # ----------------------------------
+      - name: Verify Backend Rollout
+        run: |
+          kubectl rollout status deployment/backend -n devops-project
+      
+      # ----------------------------------
+      # Verify Frontend Rollout
+      # ----------------------------------
+      - name: Verify Frontend Rollout
+        run: |
+          kubectl rollout status deployment/frontend -n devops-project

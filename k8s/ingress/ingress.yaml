@@ -9,9 +9,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-  - host: notesapp.local
-
-    http:
+  - http:
       paths:
 
       - path: /notes

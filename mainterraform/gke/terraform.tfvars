@@ -1,0 +1,6 @@
+project_id   = "theena-devops-lab"
+region       = "asia-south1"
+zone         = "asia-south1-a"
+cluster_name = "devops-gke-cluster"
+vpc_name     = "devops-vpc"
+subnet_name  = "gke-subnet"

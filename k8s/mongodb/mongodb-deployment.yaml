@@ -18,6 +18,9 @@ spec:
         app: mongodb
 
     spec:
+      nodeSelector:
+        role: infrastructure
+        
       containers:
       - name: mongodb
         image: mongo:7
