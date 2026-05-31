@@ -6,7 +6,7 @@ metadata:
   namespace: devops-project
 
 spec:
-  replicas: 2
+  replicas: 1
 
   selector:
     matchLabels:
@@ -24,9 +24,35 @@ spec:
       containers:
       - name: backend
         image: theena18/notes-backend:v1
+
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+
         ports:
         - containerPort: 5000
 
         env:
         - name: MONGO_URL
           value: "mongodb://mongodb-service:27017/notesdb"
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          failureThreshold: 3 

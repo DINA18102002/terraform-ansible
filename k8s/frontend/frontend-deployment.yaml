@@ -6,7 +6,7 @@ metadata:
   namespace: devops-project
 
 spec:
-  replicas: 2
+  replicas: 1
 
   selector:
     matchLabels:
@@ -25,5 +25,14 @@ spec:
       - name: frontend
         image: theena18/notes-frontend:v4
         imagePullPolicy: Always
+
+        resources:
+          requests:
+            cpu: "25m"
+            memory: "64Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+
         ports:
         - containerPort: 80

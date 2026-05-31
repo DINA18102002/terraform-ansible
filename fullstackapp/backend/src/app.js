@@ -36,6 +36,10 @@ app.use(metricsMiddleware);
 // Routes
 app.use('/notes', noteRoutes);
 
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "UP" });
+});
+
 //MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('MongoDB connected'))
