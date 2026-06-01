@@ -24,6 +24,7 @@ spec:
       containers:
       - name: backend
         image: theena18/notes-backend:v1
+        imagePullPolicy: Always
 
         resources:
           requests:
