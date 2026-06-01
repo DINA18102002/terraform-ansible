@@ -1,0 +1,27 @@
+gitops
+├── backend
+│   ├── backend-deployment.yaml
+│   └── backend-service.yaml
+├── frontend
+│   ├── frontend-deployment.yaml
+│   └── frontend-service.yaml
+├── ingress
+│   └── ingress.yaml
+├── mongodb
+│   ├── mongodb-deployment.yaml
+│   └── mongodb-service.yaml
+├── monitoring
+│   ├── backend-servicemonitor.yaml
+│   ├── grafana-ingress.yaml
+│   └── monitoring-values.yaml
+├── namespace
+│   └── devops-project-namespace.yaml
+└── storage
+    └── mongodb-pvc.yaml
+get  [error opening dir]
+application  [error opening dir]
+notesapp  [error opening dir]
+argocd
+└── notesapp.yaml
+
+9 directories, 13 files
