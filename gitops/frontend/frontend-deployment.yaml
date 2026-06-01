@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: frontend
+  namespace: devops-project
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: frontend
+  
+  template:
+    metadata:
+      labels:
+        app: frontend
+    
+    spec:
+      nodeSelector:
+        role: application
+        
+      containers:
+      - name: frontend
+        image: theena18/notes-frontend:v4
+        imagePullPolicy: Always
+
+        resources:
+          requests:
+            cpu: "25m"
+            memory: "64Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+
+        ports:
+        - containerPort: 80

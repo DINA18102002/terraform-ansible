@@ -1,0 +1,31 @@
+grafana:
+  nodeSelector:
+    role: infrastructure
+  
+  tolerations:
+    - key: "dedicated"
+      operator: "Equal"
+      value: "infrastructure"
+      effect: "NoSchedule"
+
+prometheus:
+  prometheusSpec:
+    nodeSelector:
+      role: infrastructure
+    
+    tolerations:
+      - key: "dedicated"
+        operator: "Equal"
+        value: "infrastructure"
+        effect: "NoSchedule"
+
+alertmanager:
+  alertmanagerSpec:
+    nodeSelector:
+      role: infrastructure
+
+    tolerations:
+      - key: "dedicated"
+        operator: "Equal"
+        value: "infrastructure"
+        effect: "NoSchedule"
