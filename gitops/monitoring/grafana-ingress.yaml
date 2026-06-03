@@ -9,7 +9,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-  - host: grafana.34.93.238.107.nip.io
+  - host: grafana.34.14.129.202.nip.io
 
     http:
       paths:
