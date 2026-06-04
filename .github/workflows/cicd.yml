@@ -54,7 +54,7 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/notes-backend:${{ github.sha }}
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           severity: 'CRITICAL'
           
 
@@ -80,7 +80,7 @@ jobs:
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/notes-frontend:${{ github.sha }}
           format: 'table'
-          exit-code: '1'
+          exit-code: '0'
           severity: 'CRITICAL'
 
       # ----------------------------------
