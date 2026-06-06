@@ -23,7 +23,7 @@ spec:
         
       containers:
       - name: backend
-        image: theena18/notes-backend:af5a301f73355b7d2789f1926e17ee87de35d810
+        image: theena18/notes-backend:7a558cbf15c9a2274ec55da2a5e19347308817f2
         imagePullPolicy: Always
 
         resources:
