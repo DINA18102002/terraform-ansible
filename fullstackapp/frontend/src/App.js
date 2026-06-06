@@ -38,28 +38,54 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
-      <h2>📖Notes App</h2>
+  <div className="container">
 
-      <div className="input-group">
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Enter note"
-        />
-        <button onClick={addNote}>Add</button>
-      </div>
+    <h2>☸️ KubeNotes</h2>
 
+    <p className="subtitle">
+      Kubernetes-Powered Notes Application
+    </p>
+
+    <div className="input-group">
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Write your note..."
+      />
+
+      <button
+        className="add-btn"
+        onClick={addNote}
+      >
+        ➕ Add
+      </button>
+    </div>
+
+    {notes.length === 0 ? (
+      <p className="empty-state">
+        No notes available. Create your first note 🚀
+      </p>
+    ) : (
       <ul className="notes">
         {notes.map((note) => (
           <li key={note._id}>
-            <span>{note.text}</span>
-            <button onClick={() => deleteNote(note._id)}>❌</button>
+            <span className="note-text">
+              {note.text}
+            </span>
+
+            <button
+              className="delete-btn"
+              onClick={() => deleteNote(note._id)}
+            >
+              ✕
+            </button>
           </li>
         ))}
       </ul>
-    </div>
-  );
+    )}
+
+  </div>
+);
 }
 
 export default App;
