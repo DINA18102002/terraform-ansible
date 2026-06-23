@@ -22,10 +22,11 @@ resource "google_container_node_pool" "app_nodes" {
   location = var.zone
   cluster  = google_container_cluster.primary.name
 
-  node_count = 1
+  node_count = 2
 
   node_config {
     machine_type = "e2-medium"
+    disk_size_gb = 30
     labels = {
       role = "application"
     }

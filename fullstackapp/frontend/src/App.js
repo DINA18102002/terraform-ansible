@@ -63,7 +63,7 @@ function App() {
 
     {notes.length === 0 ? (
       <p className="empty-state">
-        No notes available. Create your first note 🚀
+        No notes available. Create your first note 🧑‍💻
       </p>
     ) : (
       <ul className="notes">
