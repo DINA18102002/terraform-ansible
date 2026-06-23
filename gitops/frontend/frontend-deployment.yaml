@@ -23,7 +23,7 @@ spec:
         
       containers:
       - name: frontend
-        image: theena18/notes-frontend:7a558cbf15c9a2274ec55da2a5e19347308817f2
+        image: theena18/notes-frontend:7798345a58ed8d91159352e3172965eefedfcea1
         imagePullPolicy: Always
 
         resources:
